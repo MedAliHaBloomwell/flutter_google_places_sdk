@@ -7,9 +7,7 @@ export 'package:flutter_google_places_sdk_platform_interface/flutter_google_plac
 /// Client used to call methods on the native google places sdk
 class FlutterGooglePlacesSdk {
   /// Construct a FlutterGooglePlacesSdk using the specific api key and locale
-  FlutterGooglePlacesSdk(this._apiKey, {Locale? locale, bool useNewApi = false})
-      : this._locale = locale,
-        this._useNewApi = useNewApi;
+  FlutterGooglePlacesSdk(this._apiKey, {Locale? locale}) : this._locale = locale;
 
   /// "Powered by google" image that should be used when background is white
   static const AssetImage ASSET_POWERED_BY_GOOGLE_ON_WHITE =
@@ -20,8 +18,7 @@ class FlutterGooglePlacesSdk {
       FlutterGooglePlacesSdkPlatform.ASSET_POWERED_BY_GOOGLE_ON_NON_WHITE;
 
   /// Singleton instance to the platform
-  static FlutterGooglePlacesSdkPlatform platform =
-      FlutterGooglePlacesSdkPlatform.instance;
+  static FlutterGooglePlacesSdkPlatform platform = FlutterGooglePlacesSdkPlatform.instance;
 
   /// The Places API key
   /// https://developers.google.com/maps/documentation/places/android-sdk/get-api-key
@@ -33,8 +30,6 @@ class FlutterGooglePlacesSdk {
   Locale? get locale => _locale;
 
   Locale? _locale;
-
-  bool _useNewApi;
 
   Future<void>? _lastMethodCall;
   Future<void>? _initialization;
@@ -68,12 +63,11 @@ class FlutterGooglePlacesSdk {
   }
 
   Future<void> _ensureInitialized() {
-    return _initialization ??=
-        platform.initialize(apiKey, locale: locale, useNewApi: _useNewApi)
-          ..catchError((dynamic err) {
-            print('FlutterGooglePlacesSdk::_ensureInitialized error: $err');
-            _initialization = null;
-          });
+    return _initialization ??= platform.initialize(apiKey, locale: locale)
+      ..catchError((dynamic err) {
+        print('FlutterGooglePlacesSdk::_ensureInitialized error: $err');
+        _initialization = null;
+      });
   }
 
   /// Fetches autocomplete predictions based on a query.
@@ -101,16 +95,17 @@ class FlutterGooglePlacesSdk {
     LatLngBounds? locationBias,
     LatLngBounds? locationRestriction,
   }) {
-    return _addMethodCall(() => platform.findAutocompletePredictions(
-          query,
-          countries: countries,
-          placeTypesFilter:
-              placeTypesFilter.map((type) => type.apiExpectedValue).toList(),
-          newSessionToken: newSessionToken,
-          origin: origin,
-          locationBias: locationBias,
-          locationRestriction: locationRestriction,
-        ));
+    return _addMethodCall(
+      () => platform.findAutocompletePredictions(
+        query,
+        countries: countries,
+        placeTypesFilter: placeTypesFilter.map((type) => type.apiExpectedValue).toList(),
+        newSessionToken: newSessionToken,
+        origin: origin,
+        locationBias: locationBias,
+        locationRestriction: locationRestriction,
+      ),
+    );
   }
 
   /// Fetches the details of a place.
@@ -120,8 +115,7 @@ class FlutterGooglePlacesSdk {
   /// Note that different fields can incur different billing.
   ///
   /// For more info about billing: https://developers.google.com/maps/documentation/places/web-service/usage-and-billing
-  Future<FetchPlaceResponse> fetchPlace(String placeId,
-      {required List<PlaceField> fields}) {
+  Future<FetchPlaceResponse> fetchPlace(String placeId, {required List<PlaceField> fields}) {
     return _addMethodCall(() => platform.fetchPlace(placeId, fields: fields));
   }
 
@@ -131,10 +125,14 @@ class FlutterGooglePlacesSdk {
   /// together with the [PlaceField.PhotoMetadatas] field
   ///
   /// For more info: https://developers.google.com/maps/documentation/places/android-sdk/photos
-  Future<FetchPlacePhotoResponse> fetchPlacePhoto(PhotoMetadata photoMetadata,
-      {int? maxWidth, int? maxHeight}) {
-    return _addMethodCall(() => platform.fetchPlacePhoto(photoMetadata,
-        maxWidth: maxWidth, maxHeight: maxHeight));
+  Future<FetchPlacePhotoResponse> fetchPlacePhoto(
+    PhotoMetadata photoMetadata, {
+    int? maxWidth,
+    int? maxHeight,
+  }) {
+    return _addMethodCall(
+      () => platform.fetchPlacePhoto(photoMetadata, maxWidth: maxWidth, maxHeight: maxHeight),
+    );
   }
 
   /// Returns whether or not the client has been initialized.
@@ -145,13 +143,10 @@ class FlutterGooglePlacesSdk {
   /// Updates the settings of the places client with the given API key and locale.
   /// If apiKey is null, the last key will be used.
   /// If locale is null, it will not be updated.
-  Future<void> updateSettings(
-      {String? apiKey, Locale? locale, bool? useNewApi}) {
+  Future<void> updateSettings({String? apiKey, Locale? locale}) {
     _apiKey = apiKey ?? this.apiKey;
     _locale = locale;
-    _useNewApi = useNewApi ?? _useNewApi;
 
-    return _addMethodCall(() => platform.updateSettings(_apiKey,
-        locale: locale, useNewApi: _useNewApi));
+    return _addMethodCall(() => platform.updateSettings(_apiKey, locale: locale));
   }
 }
