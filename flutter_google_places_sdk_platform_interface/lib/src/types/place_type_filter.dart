@@ -43,7 +43,7 @@ enum PlaceTypeFilter {
   String get apiExpectedValue {
     switch (this) {
       case PlaceTypeFilter.ADDRESS:
-        return 'address';
+        return 'street_address';
       case PlaceTypeFilter.CITIES:
         return '(cities)';
       case PlaceTypeFilter.ESTABLISHMENT:
