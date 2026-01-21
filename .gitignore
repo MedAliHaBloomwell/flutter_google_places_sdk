@@ -49,5 +49,5 @@ build/
 **/android/app/.cxx
 
 # Generated dart files
-*.g.dart
-*.freezed.dart
+# *.g.dart
+# *.freezed.dart
