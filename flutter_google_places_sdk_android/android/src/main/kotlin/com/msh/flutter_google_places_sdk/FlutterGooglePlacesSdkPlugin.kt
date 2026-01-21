@@ -501,10 +501,8 @@ class FlutterGooglePlacesSdkPlugin : FlutterPlugin, MethodCallHandler {
             "primaryText" to result.getPrimaryText(null).toString(),
             "secondaryText" to result.getSecondaryText(null).toString(),
             "fullText" to result.getFullText(null).toString(),
-<<<<<<< HEAD
-=======
             "placeTypes" to result.types
->>>>>>> 5cd24a6 (chore: update Android dependencies and adapt to Places SDK 5.0.0 API changes)
+
         )
     }
 
