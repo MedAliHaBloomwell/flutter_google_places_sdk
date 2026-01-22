@@ -274,7 +274,7 @@ public class SwiftFlutterGooglePlacesSdkIosPlugin: NSObject, FlutterPlugin {
     private func placeFieldFromStr(it: String) -> GMSPlaceField {
         switch (it) {
         case "ADDRESS": return GMSPlaceField.formattedAddress
-        case "ADDRESSCOMPONENTS": return GMSPlaceField.addressComponents
+        case "AddressComponents": return GMSPlaceField.addressComponents
         case "BUSINESS_STATUS": return GMSPlaceField.businessStatus
         case "ID": return GMSPlaceField.placeID
         case "LAT_LNG": return GMSPlaceField.coordinate
