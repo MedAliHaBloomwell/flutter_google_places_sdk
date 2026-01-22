@@ -15,7 +15,11 @@ dependencies:
         url: https://github.com/MedAliHaBloomwell/flutter_google_places_sdk.git
         ref: 4f66e26d7bf793d976542cd1724a4b3a7f4809d8
         path: flutter_google_places_sdk_platform_interface/
-  flutter_google_places_sdk_ios: ^0.2.2
+  flutter_google_places_sdk_ios: #^0.2.2
+    git:
+      url: https://github.com/MedAliHaBloomwell/flutter_google_places_sdk.git
+      ref: 4f66e26d7bf793d976542cd1724a4b3a7f4809d8
+      path: flutter_google_places_sdk_ios/
   flutter_google_places_sdk_web: ^0.3.0
   flutter_google_places_sdk_android: ^0.3.0
   flutter_google_places_sdk_windows: ^0.3.0
